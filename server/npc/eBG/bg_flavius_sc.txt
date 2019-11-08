@@ -35,7 +35,8 @@ OnTeamDie:
 		}
 		donpcevent("Neutral Stone#" + .@stone +"::OnTimerStartE");
 		bg_hpsp_time_del(EBG_HP_TIME | EBG_SP_TIME | EBG_EXTRA_TIME);
-		pc_block_si(PC_BLOCK_ALL, 0);
+		//pc_block_si(PC_BLOCK_ALL, 0);
+		setpcblock(PCBLOCK_SKILL|PCBLOCK_USEITEM, false);
 		enablenpc("Neutral Stone#" + .@stone);
 	}
 	return;
@@ -169,8 +170,9 @@ OnTouch:
 	sc_end SC_CLOAKINGEXCEED;
 	sc_end SC_CAMOUFLAGE;
 	sc_end SC__INVISIBILITY;
-	pc_block_si PC_BLOCK_ALL, 1; // Block Skills/Items
-	
+	//pc_block_si PC_BLOCK_ALL, 1; // Block Skills/Items
+	setpcblock(PCBLOCK_SKILL|PCBLOCK_USEITEM, true);
+
 	mapannounce("ebg_sc", sprintf(_$("[%s] Got the Neutral Stone."), strcharinfo(PC_NAME)), bc_map, 0xFFFFFF);
 		
 	bg_npc_data(getcharid(CHAR_ID_CHAR), .@stone_id, "SC_Flavius");
@@ -252,8 +254,8 @@ OnTouch:
 		sc_end SC_CLOAKINGEXCEED;
 		sc_end SC_CAMOUFLAGE;
 		sc_end SC__INVISIBILITY;
-		pc_block_si PC_BLOCK_ALL,1; // Block Skills/Items
-
+		//pc_block_si PC_BLOCK_ALL,1; // Block Skills/Items
+		setpcblock(PCBLOCK_SKILL|PCBLOCK_USEITEM, true);
 
 		mapannounce("ebg_sc", sprintf(_$("%s Stone has been stole by [%s]"), callfunc("F_eBGTeamName", .@team), strcharinfo(PC_NAME)), 1, callfunc("F_eBGTeamColor", .@oppose));
 		bg_addpoints BG_SC_STOLE, 1, 1;
@@ -271,7 +273,8 @@ OnTouch:
 
 		mapannounce("ebg_sc", sprintf(_$("%s Stone Captured by [%s]"), callfunc("F_eBGTeamName", .@team), strcharinfo(PC_NAME)), 1, callfunc("F_eBGTeamColor",.@team));
 		bg_addpoints BG_SC_CAPTURED, 1, 1;
-		pc_block_si PC_BLOCK_ALL,0; // UnBlock Skills/Items
+		//pc_block_si PC_BLOCK_ALL,0; // UnBlock Skills/Items
+		setpcblock(PCBLOCK_SKILL|PCBLOCK_USEITEM, false);
 		setnpcdisplay strnpcinfo(NPC_NAME_UNIQUE), callfunc("F_eBGTeamName", .@team) + " Stone#"+ .@hidden_part, BARRICADE;
 		bg_npc_data(0, .@stone_id, "SC_Flavius");
 	}
