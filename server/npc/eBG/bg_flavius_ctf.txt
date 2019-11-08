@@ -72,7 +72,6 @@ OnTouch:
 		//end All Invisibility Status.
 		sc_end(SC_HIDING); sc_end(SC_CLOAKING); sc_end(SC_CHASEWALK); sc_end(SC_CLOAKINGEXCEED); sc_end(SC_CAMOUFLAGE); sc_end(SC__INVISIBILITY);
 		setpcblock(PCBLOCK_SKILL|PCBLOCK_USEITEM, true); // Block Skills/Items, so can only move.
-		soundeffect "flag_taken.wav",0;
 		mapannounce("ebg_ctf", sprintf(_$("%s Crystal Taken by [%s]"), .@team$, strcharinfo(PC_NAME)), bc_map, callfunc("F_eBGTeamColor", .@oppose));
 		// Add Points and disable NPC
 		bg_addpoints(CTF_ONHAND, 1, 1);
@@ -88,14 +87,16 @@ OnTouch:
 			// Reset the Flag Variables
 			.Flag_Carry[.@oppose] = CTF_UNTOUCHED;	
 			.Flag_Carry[.@self] =  CTF_UNTOUCHED;
-			soundeffect "flag_return.wav",0;
 			mapannounce("ebg_ctf", sprintf(_$("%s Crystal Captured by [%s]!!"), .@oppose$, strcharinfo(PC_NAME)), bc_map, .@color); // Announce Team2 Captured Team1 Flag
 			// Add Poins
 			bg_addpoints(CTF_CAPTURED, 1, 1);
 			// Delete Character Timer and start NPC Timer
 			bg_hpsp_time_del(EBG_HP_TIME | EBG_SP_TIME);
+			
 			// UnBlock Skills/Items
+			
 			setpcblock(PCBLOCK_SKILL|PCBLOCK_USEITEM, false);
+			
 			callsub(OnTeamScore, .@self); // Update Self Score
 			callsub(OnTimerStart);
 		// Team B Flag is on ground and teammates reaches near flag.
